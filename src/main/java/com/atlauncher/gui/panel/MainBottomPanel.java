@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import com.atlauncher.ATLauncher;
 import com.atlauncher.gui.comp.AccountComboBox;
+import com.atlauncher.gui.comp.StatusLabel;
 
 public final class MainBottomPanel extends JPanel{
 	private static final long serialVersionUID = 7272200927419278735L;
@@ -54,6 +55,7 @@ public final class MainBottomPanel extends JPanel{
 		private static final long serialVersionUID = 9098631548658827529L;
 		
 		private final AccountComboBox ACCOUNTS = new AccountComboBox();
+		private final StatusLabel STATUS_LABEL = new StatusLabel();
 		
 		protected AccountPanel(){
 			super(new GridBagLayout());
@@ -64,6 +66,7 @@ public final class MainBottomPanel extends JPanel{
 			gbc.insets.set(0, 0, 0, 5);
 			this.add(this.ACCOUNTS, gbc);
 			gbc.gridx++;
+			this.add(this.STATUS_LABEL, gbc);
 		}
 	}
 	
