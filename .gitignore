@@ -1,4 +1,10 @@
-*.swp
-*~
-release/
-bin/
+# Ignore Everything
+/*
+/*/
+
+# Except These
+!/src/
+!/pom.xml
+!/.gitignore
+!/LICENSE
+!/README.md
