@@ -14,4 +14,9 @@ public final class SocialButton extends JButton{
 		this.setContentAreaFilled(false);
 		this.setCursor(ATLauncher.HAND);
 	}
+	
+	public SocialButton(String icon, String tooltip){
+		this(icon);
+		this.setToolTipText(tooltip);
+	}
 }

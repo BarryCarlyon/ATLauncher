@@ -1,6 +1,12 @@
 package com.atlauncher.gui.comp;
 
-public class StatusLabel extends IconLabel{
+import java.awt.Color;
+
+import javax.swing.JToolTip;
+
+import com.atlauncher.ATLauncher;
+
+public final class StatusLabel extends IconLabel{
 	private static final long serialVersionUID = 6311078928948035482L;
 
 	public static final int STATUS_CHECKING = 0x0;
@@ -12,8 +18,16 @@ public class StatusLabel extends IconLabel{
 	public StatusLabel(int status){
 		super("/status/" + getIcon(status));
 	}
+	
 	public StatusLabel(){
 		this(STATUS_CHECKING);
+	}
+	
+	@Override
+	public JToolTip createToolTip(){
+		JToolTip tip = super.createToolTip();
+		tip.setBorder(new CustomLineBorder(5, new Color(80, 170, 107), 2));
+		return tip;
 	}
 	
 	private static String getIcon(int status){
@@ -35,5 +49,31 @@ public class StatusLabel extends IconLabel{
 				throw new IllegalStateException("Unkown Status State: " + status);
 			}
 		}
+	}
+	
+	private static String getStatus(int status){
+		switch(status)
+		{
+			case STATUS_CHECKING:{
+				return "Checking";
+			}
+			case STATUS_ONLINE:{
+				return "Online";
+			}
+			case STATUS_OFFLINE:{
+				return "Offline";
+			}
+			case STATUS_PARTIAL:{
+				return "Partially Online";
+			}
+			default:{
+				throw new IllegalStateException("Unkown Status State: " + status);
+			}
+		}
+	}
+	
+	public static void updateStatus(StatusLabel label, int status){
+		label.setToolTipText("Status: " + StatusLabel.getStatus(status));
+		label.setIcon(ATLauncher.loadIcon("/status/" + StatusLabel.getIcon(status)));
 	}
 }

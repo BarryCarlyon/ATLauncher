@@ -67,6 +67,8 @@ public final class MainBottomPanel extends JPanel{
 			this.add(this.ACCOUNTS, gbc);
 			gbc.gridx++;
 			this.add(this.STATUS_LABEL, gbc);
+			
+			StatusLabel.updateStatus(this.STATUS_LABEL, StatusLabel.STATUS_CHECKING);
 		}
 	}
 	
