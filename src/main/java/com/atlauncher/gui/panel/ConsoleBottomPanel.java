@@ -4,10 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import com.atlauncher.ATLauncher;
 
 public final class ConsoleBottomPanel extends JPanel{
 	private final class ActionsPanel extends JPanel{
@@ -16,6 +20,15 @@ public final class ConsoleBottomPanel extends JPanel{
 		private final JButton CLEAR_BUTTON = new JButton("Clear"){
 			private static final long serialVersionUID = 2602438939768462715L;
 			
+			{
+				this.addActionListener(new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent event){
+						ATLauncher.CONSOLE.clear();
+						ATLauncher.LOGGER.info("Console Cleared");
+					}
+				});
+			}
 		};
 		private final JButton COPYLOG_BUTTON = new JButton("Copy Log"){
 			private static final long serialVersionUID = -9032881226876225310L;

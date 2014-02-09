@@ -17,13 +17,12 @@ import com.atlauncher.gui.MainWindow;
 
 public final class ATLauncher{	
 	public static Color BASE_COLOR = new Color(40, 45, 50);
+	public static final Logger LOGGER = LogManager.getLogger(ATLauncher.class);
 	
 	public static final Cursor HAND = new Cursor(Cursor.HAND_CURSOR);
 	
 	public static final ConsoleWindow CONSOLE = new ConsoleWindow();
 	public static final MainWindow MAIN = new MainWindow();
-	
-	public static final Logger LOGGER = LogManager.getLogger(ATLauncher.class);
 	
 	static
 	{
@@ -34,6 +33,7 @@ public final class ATLauncher{
 	
 	public static void main(String... args)
 	throws Exception{
+		ATLauncher.LOGGER.info("Starting Client");
 		startClient();
 	}
 	
@@ -48,6 +48,7 @@ public final class ATLauncher{
 	}
 	
 	public static void updateClient(){
+		ATLauncher.LOGGER.info("Updating Client");
 		SwingUtilities.updateComponentTreeUI(ATLauncher.CONSOLE);
 		SwingUtilities.updateComponentTreeUI(ATLauncher.MAIN);
 	}
@@ -62,6 +63,7 @@ public final class ATLauncher{
 			
 			return f;
 		} catch(Exception ex){
+			ATLauncher.LOGGER.trace(ex.getMessage(), ex);
 			ex.printStackTrace(System.out);
 			return null;
 		}
@@ -71,6 +73,7 @@ public final class ATLauncher{
 		try{
 			return new ImageIcon(ATLauncher.class.getResource("/icons/" + name + ".png"));
 		} catch(Exception ex){
+			ATLauncher.LOGGER.trace(ex.getMessage(), ex);
 			ex.printStackTrace(System.out);
 			return null;
 		}
@@ -79,13 +82,17 @@ public final class ATLauncher{
 	private static void setLAF(){
 		try{
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+			ATLauncher.LOGGER.info("Setting LookAndFeel to com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch(Exception ex){
 			ex.printStackTrace(System.out);
+			ATLauncher.LOGGER.trace(ex.getMessage(), ex);
 		}
 	}
 	
 	private static void modifyLAF(){
 		try{
+			ATLauncher.LOGGER.info("Modifying the LookAndFeel");
+			
 			UIManager.put("control", ATLauncher.BASE_COLOR);
 			UIManager.put("text", Color.WHITE);
 			UIManager.put("nimbusBase", Color.BLACK);
@@ -97,6 +104,7 @@ public final class ATLauncher{
 			UIManager.put("Table.focusCellHighlightBorder", BorderFactory.createEmptyBorder(2, 5, 2, 5));
 		} catch(Exception ex){
 			ex.printStackTrace(System.out);
+			ATLauncher.LOGGER.trace(ex.getMessage(), ex);
 		}
 	}
 }

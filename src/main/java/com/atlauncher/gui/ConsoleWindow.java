@@ -28,4 +28,8 @@ public final class ConsoleWindow extends JFrame{
 	public void log(String message, Level level){
 		this.CONSOLE.log(message, level);
 	}
+	
+	public void clear(){
+		this.CONSOLE.clear();
+	}
 }

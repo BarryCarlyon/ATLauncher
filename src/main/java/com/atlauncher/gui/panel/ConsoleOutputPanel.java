@@ -11,6 +11,8 @@ import javax.swing.text.html.HTMLEditorKit;
 
 import org.apache.log4j.Level;
 
+import com.atlauncher.ATLauncher;
+
 public final class ConsoleOutputPanel extends JPanel{
 	private static final long serialVersionUID = 8898108656471359041L;
 	
@@ -39,35 +41,19 @@ public final class ConsoleOutputPanel extends JPanel{
 	}
 	
 	public void log(String message, Level level){
-		switch(level.toInt())
+		synchronized(this.HTML_KIT)
 		{
-			case Level.TRACE_INT:{
-				
-			}
-			case Level.ALL_INT:{
-				
-			}
-			case Level.DEBUG_INT:{
-				
-			}
-			case Level.ERROR_INT:{
-				
-			}
-			case Level.FATAL_INT:{
-				
-			}
-			case Level.INFO_INT:{
-				
-			}
-			case Level.OFF_INT:{
-				
-			}
-			case Level.WARN_INT:{
-				
-			}
-			default:{
-				
+			try {
+				this.HTML_KIT.insertHTML(this.HTML_DOC, this.HTML_DOC.getLength(), message, 0, 0, null);
+				this.OUTPUT_PANE.setCaretPosition(this.HTML_DOC.getLength());
+			} catch (Exception ex) {
+				ex.printStackTrace(System.out);
+				ATLauncher.LOGGER.error(ex.getMessage(), ex);
 			}
 		}
+	}
+	
+	public void clear(){
+		this.OUTPUT_PANE.setText("");
 	}
 }
