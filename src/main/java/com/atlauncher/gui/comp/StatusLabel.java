@@ -16,7 +16,7 @@ public final class StatusLabel extends IconLabel{
 	public static final int STATUS_UNKOWN = StatusLabel.STATUS_CHECKING;
 	
 	public StatusLabel(int status){
-		super("/status/" + getIcon(status));
+		super("status/" + getIcon(status));
 	}
 	
 	public StatusLabel(){
@@ -74,6 +74,6 @@ public final class StatusLabel extends IconLabel{
 	
 	public static void updateStatus(StatusLabel label, int status){
 		label.setToolTipText("Status: " + StatusLabel.getStatus(status));
-		label.setIcon(ATLauncher.loadIcon("/status/" + StatusLabel.getIcon(status)));
+		label.setIcon(ATLauncher.loadIcon("status/" + StatusLabel.getIcon(status)));
 	}
 }

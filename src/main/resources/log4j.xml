@@ -15,6 +15,7 @@
 	
 	<root>
 		<priority value="ALL"/>
+		
 		<appender-ref ref="Console"/>
 		<appender-ref ref="SYSOUT"/>
 	</root>

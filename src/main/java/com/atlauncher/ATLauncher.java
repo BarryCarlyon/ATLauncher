@@ -73,7 +73,7 @@ public final class ATLauncher{
 		try{
 			return new ImageIcon(ATLauncher.class.getResource("/icons/" + name + ".png"));
 		} catch(Exception ex){
-			ATLauncher.LOGGER.trace(ex.getMessage(), ex);
+			ATLauncher.LOGGER.error("Cannot find Icon: /icons/" + name + ".png", ex);
 			ex.printStackTrace(System.out);
 			return null;
 		}
