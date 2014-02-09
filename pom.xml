@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.atlauncher</groupId>
   <artifactId>atlauncher</artifactId>
-  <version>2.3.1</version>
+  <version>2.3.2</version>
   <name>ATLauncher</name>
   <description>Rewrite &amp; Mavenizing of the well known ATLauncher by RyanTheAllmighty</description>
   <url>https://www.atlauncher.com</url>
