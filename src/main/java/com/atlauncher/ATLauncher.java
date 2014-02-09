@@ -2,7 +2,10 @@ package com.atlauncher;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Font;
+import java.io.File;
+import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -24,11 +27,19 @@ public final class ATLauncher{
 	public static final ConsoleWindow CONSOLE = new ConsoleWindow();
 	public static final MainWindow MAIN = new MainWindow();
 	
+	private static final Desktop DESKTOP;
+	
 	static
 	{
 		setLAF();
 		modifyLAF();
 		updateClient();
+		
+		if(Desktop.isDesktopSupported()){
+			DESKTOP = Desktop.getDesktop();
+		} else{
+			DESKTOP = null;
+		}
 	}
 	
 	public static void main(String... args)
@@ -66,6 +77,30 @@ public final class ATLauncher{
 			ATLauncher.LOGGER.trace(ex.getMessage(), ex);
 			ex.printStackTrace(System.out);
 			return null;
+		}
+	}
+	
+	public static void openWebsite(String url){
+		try{
+			if(ATLauncher.DESKTOP == null){
+				throw new NullPointerException("Cannot open website because desktop bridge cannot be opened");
+			}
+			
+			ATLauncher.DESKTOP.browse(new URL(url).toURI());
+		} catch(Exception ex){
+			ATLauncher.LOGGER.error(ex.getMessage(), ex);
+		}
+	}
+	
+	public static void openFile(File file){
+		try{
+			if(ATLauncher.DESKTOP == null){
+				throw new NullPointerException("Cannot open file because desktop bridge cannot be opened");
+			}
+			
+			ATLauncher.DESKTOP.open(file);
+		} catch(Exception ex){
+			ATLauncher.LOGGER.error(ex.getMessage(), ex);
 		}
 	}
 	

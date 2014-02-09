@@ -19,6 +19,10 @@ public final class SocialButtonsPanel extends JPanel{
 		"Like us on Facebook", "Fork this on Github", "Follow us on Twitter",
 		"Check out our Reddit"
 	};
+	private final String[] URLS = new String[]{
+		"https://www.facebook.com/ATLauncher", "https://www.github.com/Asyncronous/ATLauncher", "https://www.twitter.com/ATLauncher",
+		"https://www.reddit.com/r/ATLauncher"
+	};
 	
 	public SocialButtonsPanel(){
 		super(new GridBagLayout());
@@ -30,7 +34,7 @@ public final class SocialButtonsPanel extends JPanel{
 		gbc.gridy = GridBagConstraints.RELATIVE;
 		gbc.insets.set(0, 5, 0, 0);
 		for(int i = 0; i < this.BUTTONS.length; i++){
-			this.add(new SocialButton(this.BUTTONS[i], this.TOOLTIPS[i]), gbc);
+			this.add(new SocialButton(this.BUTTONS[i], this.TOOLTIPS[i], this.URLS[i]), gbc);
 			gbc.gridx++;
 		}
 	}

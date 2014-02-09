@@ -6,6 +6,8 @@ import java.awt.Color;
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
@@ -29,6 +31,14 @@ public final class MainNewsPanel extends JPanel{
 			this.setEditable(false);
 			this.setSelectionColor(Color.GRAY);
 			this.setEditorKit(MainNewsPanel.this.HTML_KIT);
+			this.addHyperlinkListener(new HyperlinkListener(){
+				@Override
+				public void hyperlinkUpdate(HyperlinkEvent event){
+					if(event.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)){
+						
+					}
+				}
+			});
 		}
 	};
 	private final JScrollPane SCROLL_PANE = new JScrollPane(this.OUTPUT, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);

@@ -1,5 +1,8 @@
 package com.atlauncher.gui.comp;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
@@ -15,8 +18,15 @@ public final class SocialButton extends JButton{
 		this.setCursor(ATLauncher.HAND);
 	}
 	
-	public SocialButton(String icon, String tooltip){
+	public SocialButton(String icon, String tooltip, String url){
 		this(icon);
 		this.setToolTipText(tooltip);
+		this.setActionCommand(url);
+		this.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent event){
+				ATLauncher.openWebsite(event.getActionCommand());
+			}
+		});
 	}
 }
