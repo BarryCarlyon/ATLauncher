@@ -7,9 +7,7 @@ import java.awt.Font;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 
@@ -27,22 +25,24 @@ import com.atlauncher.server.Servers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public final class ATLauncher{	
-	public static Color BASE_COLOR = new Color(40, 45, 50);
+public final class ATLauncher{
+	public static final File HOME = new File(System.getProperty("user.home"));
+	public static final File ROOT = new File(HOME, ".atlauncher");
+	public static final File INSTANCES = new File(ROOT, "Instances");
+	public static final File DOWNLOADS = new File(ROOT, "Downloads");
+	public static final File CACHE = new File(ROOT, ".cache");
+	public static final File SKINS = new File(CACHE, "skins");
+	public static final Color BASE_COLOR = new Color(40, 45, 50);
 	public static final Logger LOGGER = LogManager.getLogger(ATLauncher.class);
-	
 	public static final Cursor HAND = new Cursor(Cursor.HAND_CURSOR);
-	
 	public static final ConsoleWindow CONSOLE = new ConsoleWindow();
 	public static final MainWindow MAIN = new MainWindow();
-	
 	public static final Properties INTERNAL_SETTINGS = new Properties();
 	public static final Properties EXTERNAL_SETTINGS = new Properties();
-	
 	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	
 	private static final Desktop DESKTOP;
-	
+
 	public static String AUTH_KEY = null;
 	
 	static
@@ -73,11 +73,6 @@ public final class ATLauncher{
 		}));
 	}
 	
-	public static final File HOME = new File(System.getProperty("user.home"));
-	public static final File ROOT = new File(HOME, ".atlauncher");
-	public static final File INSTANCES = new File(ROOT, "Instances");
-	public static final File DOWNLOADS = new File(ROOT, "Downloads");
-	public static final File CONFIGS = new File(ROOT, "Configs");
 	
 	static
 	{
@@ -97,7 +92,8 @@ public final class ATLauncher{
 		ATLauncher.validateFile(ATLauncher.ROOT);
 		ATLauncher.validateFile(ATLauncher.DOWNLOADS);
 		ATLauncher.validateFile(ATLauncher.INSTANCES);
-		ATLauncher.validateFile(ATLauncher.CONFIGS);
+		ATLauncher.validateFile(ATLauncher.CACHE);
+		ATLauncher.validateFile(ATLauncher.SKINS);
 	}
 	
 	private static void startClient(){
