@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,14 +24,46 @@ public final class MainBottomPanel extends JPanel{
 		private final JButton TC_BUTTON = new JButton(String.format("%s Console", (ATLauncher.CONSOLE.isVisible() ? "Hide" : "Show"))){
 			private static final long serialVersionUID = 3695287462704228197L;
 			
+			{
+				this.addActionListener(new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent event){
+						if(ATLauncher.CONSOLE.isVisible()){
+							ATLauncher.LOGGER.info("Hiding Console");
+							ATLauncher.CONSOLE.setVisible(false);
+						} else{
+							ATLauncher.LOGGER.info("Showing Console");
+							ATLauncher.CONSOLE.setVisible(true);
+						}
+						
+						setText((String.format("%s Console", (ATLauncher.CONSOLE.isVisible() ? "Hide" : "Show"))));
+					}
+				});
+			}
 		};
 		private final JButton OF_BUTTON = new JButton("Open Folder"){
 			private static final long serialVersionUID = 2497003804235539535L;
 			
+			{
+				this.addActionListener(new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent event){
+						ATLauncher.openFile(ATLauncher.ROOT);
+					}
+				});
+			}
 		};
 		private final JButton UPDATE_BUTTON = new JButton("Update Launcher"){
 			private static final long serialVersionUID = -1382867013579028964L;
 			
+			{
+				this.addActionListener(new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent event){
+						
+					}
+				});
+			}
 		};
 		
 		private final JButton[] BUTTONS = new JButton[]{

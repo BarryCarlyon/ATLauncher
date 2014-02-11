@@ -40,5 +40,6 @@ public final class MainWindow extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.add(this.TABS, BorderLayout.CENTER);
 		this.add(new MainBottomPanel(), BorderLayout.SOUTH);
+		this.setIconImage(ATLauncher.loadIcon("main").getImage());
 	}
 }

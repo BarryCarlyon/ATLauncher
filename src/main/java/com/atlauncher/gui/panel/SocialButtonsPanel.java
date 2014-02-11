@@ -21,7 +21,7 @@ public final class SocialButtonsPanel extends JPanel{
 	};
 	private final String[] URLS = new String[]{
 		"https://www.facebook.com/ATLauncher", "https://www.github.com/Asyncronous/ATLauncher", "https://www.twitter.com/ATLauncher",
-		"https://www.reddit.com/r/ATLauncher"
+		"http://www.reddit.com/r/ATLauncher"
 	};
 	
 	public SocialButtonsPanel(){

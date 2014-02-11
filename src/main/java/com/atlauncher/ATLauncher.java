@@ -5,7 +5,13 @@ import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Font;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -17,6 +23,9 @@ import org.apache.log4j.Logger;
 
 import com.atlauncher.gui.ConsoleWindow;
 import com.atlauncher.gui.MainWindow;
+import com.atlauncher.server.Servers;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public final class ATLauncher{	
 	public static Color BASE_COLOR = new Color(40, 45, 50);
@@ -27,7 +36,14 @@ public final class ATLauncher{
 	public static final ConsoleWindow CONSOLE = new ConsoleWindow();
 	public static final MainWindow MAIN = new MainWindow();
 	
+	public static final Properties INTERNAL_SETTINGS = new Properties();
+	public static final Properties EXTERNAL_SETTINGS = new Properties();
+	
+	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+	
 	private static final Desktop DESKTOP;
+	
+	public static String AUTH_KEY = null;
 	
 	static
 	{
@@ -40,6 +56,34 @@ public final class ATLauncher{
 		} else{
 			DESKTOP = null;
 		}
+		
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable(){
+			@Override
+			public void run(){
+				File file = new File(ATLauncher.ROOT, "settings.properties");
+				
+				try {
+					ATLauncher.EXTERNAL_SETTINGS.store(new FileOutputStream(file), null);
+				} catch (Exception ex){
+					throw new RuntimeException(ex);
+				}
+				
+				ATLauncher.LOGGER.info("Shutting Down");
+			}
+		}));
+	}
+	
+	public static final File HOME = new File(System.getProperty("user.home"));
+	public static final File ROOT = new File(HOME, ".atlauncher");
+	public static final File INSTANCES = new File(ROOT, "Instances");
+	public static final File DOWNLOADS = new File(ROOT, "Downloads");
+	public static final File CONFIGS = new File(ROOT, "Configs");
+	
+	static
+	{
+		loadSettings_1();
+		validateResources();
+		loadSettings_2();
 	}
 	
 	public static void main(String... args)
@@ -48,14 +92,47 @@ public final class ATLauncher{
 		startClient();
 	}
 	
+	private static void validateResources(){
+		ATLauncher.validateFile(ATLauncher.HOME);
+		ATLauncher.validateFile(ATLauncher.ROOT);
+		ATLauncher.validateFile(ATLauncher.DOWNLOADS);
+		ATLauncher.validateFile(ATLauncher.INSTANCES);
+		ATLauncher.validateFile(ATLauncher.CONFIGS);
+	}
+	
 	private static void startClient(){
 		SwingUtilities.invokeLater(new Runnable(){
 			@Override
 			public void run(){
-				ATLauncher.CONSOLE.setVisible(true);
 				ATLauncher.MAIN.setVisible(true);
 			}
 		});
+	}
+	
+	private static void loadSettings_1(){
+		try{
+			ATLauncher.INTERNAL_SETTINGS.load(ATLauncher.class.getResourceAsStream("/settings/internal.properties"));
+		} catch(Exception ex){
+			throw new RuntimeException(ex);
+		}
+	}
+	
+	private static void loadSettings_2(){
+		try{
+			File settings = new File(ATLauncher.ROOT, "settings.properties");
+			
+			if(!settings.exists()){
+				settings.createNewFile();
+			}
+			
+			ATLauncher.EXTERNAL_SETTINGS.load(new FileInputStream(settings));
+		} catch(Exception ex){
+			throw new RuntimeException(ex);
+		}
+	}
+	
+	public static boolean isPortable(){
+		return Boolean.valueOf(ATLauncher.INTERNAL_SETTINGS.getProperty("portable"));
 	}
 	
 	public static void updateClient(){
@@ -114,6 +191,13 @@ public final class ATLauncher{
 		}
 	}
 	
+	public static void validateFile(File file){
+		if(!file.exists()){
+			ATLauncher.LOGGER.warn("Cannot find file " + file.getAbsolutePath() + ", creating");
+			file.mkdir();
+		}
+	}
+	
 	private static void setLAF(){
 		try{
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -141,5 +225,20 @@ public final class ATLauncher{
 			ex.printStackTrace(System.out);
 			ATLauncher.LOGGER.trace(ex.getMessage(), ex);
 		}
+	}
+	
+	public static void update(){
+		
+	}
+	
+	public static HttpURLConnection encodeBasicConnection()
+	throws Exception{
+		HttpURLConnection con = (HttpURLConnection) new URL(Servers.getCurrentWorkingServer().getFileURL("ping")).openConnection();
+		con.setUseCaches(false);
+		con.setDefaultUseCaches(false);
+		con.setConnectTimeout(5000);
+		con.setRequestProperty("Accept-Encoding", "gzip");
+		con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.72 Safari/537.36");
+		return con;
 	}
 }

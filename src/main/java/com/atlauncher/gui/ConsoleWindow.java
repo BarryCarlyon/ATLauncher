@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 
 import org.apache.log4j.Level;
 
+import com.atlauncher.ATLauncher;
 import com.atlauncher.gui.panel.ConsoleBottomPanel;
 import com.atlauncher.gui.panel.ConsoleOutputPanel;
 
@@ -23,6 +24,7 @@ public final class ConsoleWindow extends JFrame{
 		this.setLayout(new BorderLayout());
 		this.add(this.CONSOLE, BorderLayout.CENTER);
 		this.add(this.BOTTOM, BorderLayout.SOUTH);
+		this.setIconImage(ATLauncher.loadIcon("main").getImage());
 	}
 	
 	public void log(String message, Level level){
