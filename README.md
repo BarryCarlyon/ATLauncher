@@ -1,4 +1,4 @@
-This branch is in beta
+This branch is in BETA
 
 ====================================
 
