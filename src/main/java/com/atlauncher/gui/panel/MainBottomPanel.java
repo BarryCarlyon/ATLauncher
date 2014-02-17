@@ -1,19 +1,13 @@
 package com.atlauncher.gui.panel;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
 import com.atlauncher.ATLauncher;
 import com.atlauncher.gui.comp.AccountComboBox;
 import com.atlauncher.gui.comp.StatusLabel;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public final class MainBottomPanel extends JPanel{
 	private static final long serialVersionUID = 7272200927419278735L;
@@ -21,7 +15,7 @@ public final class MainBottomPanel extends JPanel{
 	private final class ActionsPanel extends JPanel{
 		private static final long serialVersionUID = -9134018565955990090L;
 		
-		private final JButton TC_BUTTON = new JButton(String.format("%s Console", (ATLauncher.CONSOLE.isVisible() ? "Hide" : "Show"))){
+		private final JButton TC_BUTTON = new JButton("Hide Console"){
 			private static final long serialVersionUID = 3695287462704228197L;
 			
 			{

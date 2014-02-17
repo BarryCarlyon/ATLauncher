@@ -1,29 +1,21 @@
 package com.atlauncher;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Desktop;
-import java.awt.Font;
+import com.atlauncher.gui.ConsoleWindow;
+import com.atlauncher.gui.MainWindow;
+import com.atlauncher.server.Servers;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Properties;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
-import com.atlauncher.gui.ConsoleWindow;
-import com.atlauncher.gui.MainWindow;
-import com.atlauncher.server.Servers;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 public final class ATLauncher{
 	public static final File HOME = new File(System.getProperty("user.home"));
@@ -100,6 +92,7 @@ public final class ATLauncher{
 		SwingUtilities.invokeLater(new Runnable(){
 			@Override
 			public void run(){
+                ATLauncher.CONSOLE.setVisible(true);
 				ATLauncher.MAIN.setVisible(true);
 			}
 		});
@@ -221,10 +214,6 @@ public final class ATLauncher{
 			ex.printStackTrace(System.out);
 			ATLauncher.LOGGER.trace(ex.getMessage(), ex);
 		}
-	}
-	
-	public static void update(){
-		
 	}
 	
 	public static HttpURLConnection encodeBasicConnection()

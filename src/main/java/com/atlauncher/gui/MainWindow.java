@@ -1,18 +1,10 @@
 package com.atlauncher.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
-
 import com.atlauncher.ATLauncher;
-import com.atlauncher.gui.panel.MainAccountPanel;
-import com.atlauncher.gui.panel.MainBottomPanel;
-import com.atlauncher.gui.panel.MainInstancesPanel;
-import com.atlauncher.gui.panel.MainNewsPanel;
-import com.atlauncher.gui.panel.MainPacksPanel;
-import com.atlauncher.gui.panel.MainSettingsPanel;
+import com.atlauncher.gui.panel.*;
+
+import javax.swing.*;
+import java.awt.*;
 
 public final class MainWindow extends JFrame{
 	private static final long serialVersionUID = 2028814758202459002L;
@@ -31,6 +23,7 @@ public final class MainWindow extends JFrame{
 			this.setOpaque(true);
 		}
 	};
+    private final MainBottomPanel BOTTOM_PANEL = new MainBottomPanel();
 
 	public MainWindow(){
 		super("ATLauncher");
@@ -39,7 +32,7 @@ public final class MainWindow extends JFrame{
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.add(this.TABS, BorderLayout.CENTER);
-		this.add(new MainBottomPanel(), BorderLayout.SOUTH);
+		this.add(this.BOTTOM_PANEL, BorderLayout.SOUTH);
 		this.setIconImage(ATLauncher.loadIcon("main").getImage());
 	}
 }
