@@ -1,19 +1,23 @@
 package com.atlauncher.gui.panel;
 
 import com.atlauncher.ATLauncher;
+import com.atlauncher.gui.comp.ITitled;
 import com.atlauncher.gui.panel.settings.SettingsPage1;
 import com.atlauncher.gui.panel.settings.SettingsPage2;
+import com.atlauncher.gui.panel.settings.SettingsPage3;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.List;
 
 public final class MainSettingsPanel extends JPanel{
 	private static final long serialVersionUID = -6309362351276370276L;
 
     private final class TopBar extends JPanel{
-        private final JLabel TITLE = new JLabel("Settings 1"){
+        private final JLabel TITLE = new JLabel("Java Settings"){
             {
                 this.setFont(ATLauncher.loadFont("Oswald-Regular").deriveFont(34.0F));
             }
@@ -28,27 +32,31 @@ public final class MainSettingsPanel extends JPanel{
     }
 
     private final class SettingsBook extends JPanel{
-        private final String[] NAMES = new String[]{
-                "Settings 1", "Settings 2"
-        };
+        private final List<String> TITLES = new LinkedList<String>();
 
         private int ptr = 0;
 
         public SettingsBook(){
             super(new CardLayout());
 
-            this.add(new SettingsPage1(), this.NAMES[0]);
-            this.add(new SettingsPage2(), this.NAMES[1]);
+            this.addPage(new SettingsPage1());
+            this.addPage(new SettingsPage2());
+            this.addPage(new SettingsPage3());
+        }
+
+        protected <T extends JPanel & ITitled> void addPage(T title){
+            this.TITLES.add(title.getTitle());
+            this.add(title, title.getTitle());
         }
 
         public void cycleForward(){
             this.ptr++;
 
-            if(this.ptr >= this.NAMES.length){
-                this.ptr = this.NAMES.length - 1;
+            if(this.ptr >= this.TITLES.size()){
+                this.ptr = this.TITLES.size() - 1;
             }
 
-            this.show(this.NAMES[this.ptr]);
+            this.show(this.TITLES.get(this.ptr));
         }
 
         public void cycleBackward(){
@@ -58,7 +66,7 @@ public final class MainSettingsPanel extends JPanel{
                 this.ptr = 0;
             }
 
-            this.show(this.NAMES[this.ptr]);
+            this.show(this.TITLES.get(this.ptr));
         }
 
         public void show(String name){
@@ -72,9 +80,9 @@ public final class MainSettingsPanel extends JPanel{
             private final JButton BACK = new JButton("Back"){
                 {
                     this.setFont(ATLauncher.loadFont("Oswald-Regular").deriveFont(24.0F));
-                    this.addActionListener(new ActionListener(){
+                    this.addActionListener(new ActionListener() {
                         @Override
-                        public void actionPerformed(ActionEvent event){
+                        public void actionPerformed(ActionEvent event) {
                             backward();
                         }
                     });
@@ -135,11 +143,11 @@ public final class MainSettingsPanel extends JPanel{
 
     public void forward(){
         this.BOOK.cycleForward();
-        this.TOP.TITLE.setText(this.BOOK.NAMES[this.BOOK.ptr]);
+        this.TOP.TITLE.setText(this.BOOK.TITLES.get(this.BOOK.ptr));
     }
 
     public void backward(){
         this.BOOK.cycleBackward();
-        this.TOP.TITLE.setText(this.BOOK.NAMES[this.BOOK.ptr]);
+        this.TOP.TITLE.setText(this.BOOK.TITLES.get(this.BOOK.ptr));
     }
 }
