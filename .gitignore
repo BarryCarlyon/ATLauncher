@@ -4,9 +4,7 @@
 
 # Except These
 !/src/
-!/macapp/
 !/.gitignore
-!/build.xml
-!/launch4j.xml
-!/LICENSE
+!/LICENSE.md
 !/README.md
+!/pom.xml
