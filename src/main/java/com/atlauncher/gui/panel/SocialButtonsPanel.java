@@ -1,12 +1,9 @@
 package com.atlauncher.gui.panel;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-
-import javax.swing.JPanel;
-
 import com.atlauncher.gui.comp.SocialButton;
+
+import javax.swing.*;
+import java.awt.*;
 
 public final class SocialButtonsPanel extends JPanel{
 	private static final long serialVersionUID = -5367215674165844919L;

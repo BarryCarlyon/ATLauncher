@@ -24,6 +24,7 @@ public final class ATLauncher{
 	public static final File DOWNLOADS = new File(ROOT, "Downloads");
 	public static final File CACHE = new File(ROOT, ".cache");
 	public static final File SKINS = new File(CACHE, "skins");
+    public static final File ACCOUNTS = new File(CACHE, "data");
 	public static final Color BASE_COLOR = new Color(40, 45, 50);
 	public static final Logger LOGGER = LogManager.getLogger(ATLauncher.class);
 	public static final Cursor HAND = new Cursor(Cursor.HAND_CURSOR);
@@ -86,6 +87,7 @@ public final class ATLauncher{
 		ATLauncher.validateFile(ATLauncher.INSTANCES);
 		ATLauncher.validateFile(ATLauncher.CACHE);
 		ATLauncher.validateFile(ATLauncher.SKINS);
+        ATLauncher.validateFile(ATLauncher.ACCOUNTS);
 	}
 	
 	private static void startClient(){

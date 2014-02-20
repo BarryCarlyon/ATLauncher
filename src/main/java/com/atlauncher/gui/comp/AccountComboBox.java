@@ -1,14 +1,10 @@
 package com.atlauncher.gui.comp;
 
-import java.awt.Component;
-import java.awt.Dimension;
-
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
-
 import com.atlauncher.acc.Account;
+import com.atlauncher.acc.Accounts;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class AccountComboBox extends JComboBox<Account>{
 	private static final long serialVersionUID = 7130333592637120035L;
@@ -34,9 +30,14 @@ public class AccountComboBox extends JComboBox<Account>{
 					this.setBackground(accounts.getBackground());
 					this.setForeground(accounts.getForeground());
 				}
-				
+
+                ImageIcon ico = acc.getMinecraftHead();
 				this.setText(acc.getName());
 				this.setFont(accounts.getFont());
+
+                if(ico == null){
+                    return this;
+                }
 			}
 			
 			return this;
@@ -47,5 +48,9 @@ public class AccountComboBox extends JComboBox<Account>{
 		super();
 		this.setRenderer(new DropdownRenderer());
 		this.addItem(Account.getFiller());
+
+        for(Account acc : Accounts.getInstance().getAccounts()){
+            this.addItem(acc);
+        }
 	}
 }

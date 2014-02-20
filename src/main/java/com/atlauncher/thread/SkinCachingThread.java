@@ -1,5 +1,9 @@
 package com.atlauncher.thread;
 
+import com.atlauncher.ATLauncher;
+import com.atlauncher.acc.Account;
+
+import javax.swing.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.HttpURLConnection;
@@ -7,13 +11,7 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
-import javax.swing.SwingWorker;
-
-import com.atlauncher.ATLauncher;
-import com.atlauncher.acc.Account;
-
-@Deprecated
-public final class SkinCachingThread extends SwingWorker<Boolean, Void>{
+public final class SkinCachingThread extends SwingWorker<Void, Void>{
 	private final Account acc;
 	
 	public SkinCachingThread(Account acc){
@@ -21,8 +19,12 @@ public final class SkinCachingThread extends SwingWorker<Boolean, Void>{
 	}
 	
 	@Override
-	protected Boolean doInBackground()
+	protected Void doInBackground()
 	throws Exception{
+        if(this.acc == Account.getFiller()){
+            return null;
+        }
+
 		File file = new File(ATLauncher.SKINS, this.acc.getName() + ".png");
 		
 		if(file.exists()){
@@ -39,9 +41,9 @@ public final class SkinCachingThread extends SwingWorker<Boolean, Void>{
 				stream.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
 			}
 		} else{
-			return false;
-		}
-		
-		return true;
+            throw new RuntimeException("Unexpected Response Code: " + ((HttpURLConnection) skinURL.openConnection()).getResponseCode());
+        }
+
+        return null;
 	}
 }

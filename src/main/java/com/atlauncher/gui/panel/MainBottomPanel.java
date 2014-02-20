@@ -95,7 +95,8 @@ public final class MainBottomPanel extends JPanel{
 			this.add(this.ACCOUNTS, gbc);
 			gbc.gridx++;
 			this.add(this.STATUS_LABEL, gbc);
-			
+
+
 			StatusLabel.updateStatus(this.STATUS_LABEL, StatusLabel.STATUS_CHECKING);
 		}
 	}
@@ -103,7 +104,7 @@ public final class MainBottomPanel extends JPanel{
 	private final ActionsPanel ACTIONS_PANEL = new ActionsPanel();
 	private final AccountPanel ACCOUNT_PANEL = new AccountPanel();
 	private final SocialButtonsPanel SOCIAL_PANEL = new SocialButtonsPanel();
-	
+
 	public MainBottomPanel(){
 		super(new BorderLayout());
 		this.setBorder(BorderFactory.createEtchedBorder());

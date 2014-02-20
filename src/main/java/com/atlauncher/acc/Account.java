@@ -1,26 +1,27 @@
 package com.atlauncher.acc;
 
-import java.awt.Graphics;
-import java.awt.Image;
+import com.atlauncher.ATLauncher;
+import com.atlauncher.thread.SkinCachingThread;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.Serializable;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.SwingWorker;
-
-import com.atlauncher.ATLauncher;
-import com.atlauncher.thread.SkinCachingThread;
 
 @SuppressWarnings("deprecation")
 public final class Account implements Comparable<Account>, Cloneable, Serializable{
 	private static final long serialVersionUID = -7495549305510416500L;
 	
 	private final String name;
-	
+	private final transient File SKIN;
+    private final boolean isDummy;
+
 	public Account(String name){
 		this.name = name;
+        this.isDummy = name.equalsIgnoreCase("Select an Account");
+        this.SKIN = new File(ATLauncher.SKINS, this.name + ".png");
 	}
 	
 	public String getName(){
@@ -38,22 +39,21 @@ public final class Account implements Comparable<Account>, Cloneable, Serializab
 		}
 	}
 	
-	@Deprecated
 	public ImageIcon getMinecraftHead(){
 		try{
-			File file = new File(ATLauncher.SKINS, this.name + ".png");
-			
-			if(!file.exists()){
-				SwingWorker<Boolean, Void> cacher = new SkinCachingThread(this);
-				cacher.execute();
-				return this.getMinecraftHead();
-			}
-			
-			BufferedImage skin = ImageIO.read(file);
+            if(this.isDummy){
+                return null;
+            }
+
+            if(!this.SKIN.exists()){
+                this.updateData();
+            }
+
+			BufferedImage skin = ImageIO.read(this.SKIN);
 			BufferedImage main = skin.getSubimage(8, 8, 8, 8);
 			BufferedImage helm = skin.getSubimage(40, 8, 8, 8);
 			BufferedImage head = new BufferedImage(8, 8, BufferedImage.TYPE_INT_ARGB);
-			
+
 			int raster = 0;
 			for(int x = 0; x < 8; x++){
 				for(int y = 0; y < 8; y++){
@@ -72,23 +72,28 @@ public final class Account implements Comparable<Account>, Cloneable, Serializab
 			
 			return new ImageIcon(head.getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 		} catch(Exception ex){
-			ATLauncher.LOGGER.error("Cannot read skin data", ex);
-			return null;
+			ATLauncher.LOGGER.error("Cannot read skin data @acc: " + this.getName(), ex);
+			throw new RuntimeException(ex);
 		}
 	}
+
+    private void updateData(){
+        ATLauncher.LOGGER.info("Updating Account Data for " + this.getName());
+
+        new SkinCachingThread(this).execute();
+    }
 	
-	@Deprecated
 	public ImageIcon getMinecraftSkin(){
 		try{
-			File file = new File(ATLauncher.SKINS, this.name + ".png");
+            if(this.isDummy){
+                return null;
+            }
+
+            if(!this.SKIN.exists()){
+                this.updateData();
+            }
 			
-			if(!file.exists()){
-				SwingWorker<Boolean, Void> cacher = new SkinCachingThread(this);
-				cacher.execute();
-				return this.getMinecraftSkin();
-			}
-			
-			BufferedImage skin = ImageIO.read(file);
+			BufferedImage skin = ImageIO.read(this.SKIN);
 			BufferedImage head = skin.getSubimage(8, 8, 8, 8);
 			BufferedImage helm = skin.getSubimage(40, 8, 8, 8);
 			BufferedImage arm = skin.getSubimage(44, 20, 4, 12);
@@ -120,7 +125,7 @@ public final class Account implements Comparable<Account>, Cloneable, Serializab
 			
 			return new ImageIcon(stichedSkin.getScaledInstance(128, 256, Image.SCALE_SMOOTH));
 		} catch(Exception ex){
-			ATLauncher.LOGGER.error("Cannot load skin data", ex);
+			ATLauncher.LOGGER.error("Cannot load skin data @account: " + this.getName(), ex);
 			return null;
 		}
 	}
