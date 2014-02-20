@@ -71,6 +71,7 @@ public final class MainSettingsPanel extends JPanel{
         private final class Left extends JPanel{
             private final JButton BACK = new JButton("Back"){
                 {
+                    this.setFont(ATLauncher.loadFont("Oswald-Regular").deriveFont(24.0F));
                     this.addActionListener(new ActionListener(){
                         @Override
                         public void actionPerformed(ActionEvent event){
@@ -90,6 +91,7 @@ public final class MainSettingsPanel extends JPanel{
         private final class Right extends JPanel{
             private final JButton NEXT = new JButton("Next"){
                 {
+                    this.setFont(ATLauncher.loadFont("Oswald-Regular").deriveFont(24.0F));
                     this.addActionListener(new ActionListener(){
                        @Override
                        public void actionPerformed(ActionEvent event){
